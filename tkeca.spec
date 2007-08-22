@@ -41,9 +41,17 @@ echo '/usr/lib/tkeca/tkeca.tcl' >> $RPM_BUILD_ROOT/%_bindir/%name
 chmod ugo+x $RPM_BUILD_ROOT/%_bindir/%name
 
 #menu
-mkdir -p $RPM_BUILD_ROOT%{_menudir}
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/%{name}
-?package(%{name}): command="%{name}" icon="sound_section.png" needs="x11" title="TKEca" longtitle="Multitrack Audio Recorder" section="Multimedia/Sound"
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=TkEca
+Comment=%{summary}
+Exec=%{_bindir}/%{name} 
+Icon=sound_section.png
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;
 EOF
 
 %clean
@@ -57,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc README.tkeca license.txt
+%doc README.tkeca license.txt *.html
 %{_bindir}/%name
-%{_menudir}/%name
+%{_datadir}/applications/*
 %{_libdir}/%name
