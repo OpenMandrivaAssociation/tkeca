@@ -1,6 +1,6 @@
 %define name 	tkeca
-%define version 4.0.2
-%define release 2mdk
+%define version 4.2.0
+%define release 1mdk
 
 Name: 		%{name}
 Summary: 	Tk GUI for Ecasound multitrack audio editor and recorder
