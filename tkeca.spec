@@ -47,7 +47,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 Name=TkEca
 Comment=%{summary}
 Exec=%{_bindir}/%{name} 
-Icon=sound_section.png
+Icon=sound_section
 Terminal=false
 Type=Application
 Categories=AudioVideo;Audio;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;
