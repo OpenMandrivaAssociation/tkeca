@@ -11,6 +11,7 @@ Source:		%{name}-%{version}.tar.bz2
 URL:		http://sourceforge.net/projects/tkeca/
 License:	GPL
 Group:		Sound
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 Requires:	tk tcl ecasound
 BuildArch:	noarch
 
