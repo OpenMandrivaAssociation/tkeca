@@ -1,6 +1,6 @@
 %define name 	tkeca
 %define version 4.2.0
-%define release %mkrel 1
+%define release %mkrel 2
 
 Name: 		%{name}
 Summary: 	Tk GUI for Ecasound multitrack audio editor and recorder
@@ -25,8 +25,8 @@ and multiple effects.
 										
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/%_libdir/%name
-cp tkeca.tcl $RPM_BUILD_ROOT/%_libdir/%name/
+mkdir -p $RPM_BUILD_ROOT/%_prefix/lib/%name
+cp tkeca.tcl $RPM_BUILD_ROOT/%_prefix/lib/%name/
 mkdir -p $RPM_BUILD_ROOT/%_bindir
 echo '#!/bin/bash' > $RPM_BUILD_ROOT/%_bindir/%name
 echo 'if [ -e ~/.ecasoundrc ]' >> $RPM_BUILD_ROOT/%_bindir/%name
@@ -67,4 +67,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.tkeca license.txt *.html
 %{_bindir}/%name
 %{_datadir}/applications/*
-%{_libdir}/%name
+%{_prefix}/lib/%name
