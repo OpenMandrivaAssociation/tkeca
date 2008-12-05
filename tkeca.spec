@@ -1,18 +1,17 @@
-%define name 	tkeca
-%define version 4.2.0
-%define release %mkrel 3
-
-Name: 		%{name}
+Name: 		tkeca
 Summary: 	Tk GUI for Ecasound multitrack audio editor and recorder
-Version: 	%{version}
-Release: 	%{release}
-
-Source:		%{name}-%{version}.tar.bz2
-URL:		http://sourceforge.net/projects/tkeca/
-License:	GPL
+Version: 	4.2.0
+Release: 	%{mkrel 4}
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+URL:		http://tkeca.sourceforge.net/
+License:	GPLv2+
 Group:		Sound
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-Requires:	tk tcl ecasound
+# For macros
+BuildRequires:	tcl-devel
+Requires:	tk
+Requires:	tcl
+Requires:	ecasound
 BuildArch:	noarch
 
 %description
@@ -24,21 +23,24 @@ and multiple effects.
 %setup -q
 										
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/%_prefix/lib/%name
-cp tkeca.tcl $RPM_BUILD_ROOT/%_prefix/lib/%name/
-mkdir -p $RPM_BUILD_ROOT/%_bindir
-echo '#!/bin/bash' > $RPM_BUILD_ROOT/%_bindir/%name
-echo 'if [ -e ~/.ecasoundrc ]' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'then echo "~/.ecasoundrc found"' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'else echo "creating ~/.ecasoundrc"; cp /usr/share/ecasound/ecasoundrc ~/.ecasoundrc' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'fi' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'if [ -e ~/.ecasound/ecasoundrc ]' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'then echo "~/.ecasound/ecasoundrc found"' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'else echo "creating ~/.ecasound/ecasoundrc"; mkdir -p ~/.ecasound; cp /usr/share/ecasound/ecasoundrc ~/.ecasound' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo 'fi' >> $RPM_BUILD_ROOT/%_bindir/%name
-echo '/usr/lib/tkeca/tkeca.tcl' >> $RPM_BUILD_ROOT/%_bindir/%name
-chmod ugo+x $RPM_BUILD_ROOT/%_bindir/%name
+rm -rf %{buildroot}
+mkdir -p %{buildroot}/%{tcl_sitelib}/%{name}
+cp tkeca.tcl %{buildroot}/%{tcl_sitelib}/%{name}/
+
+mkdir -p %{buildroot}/%{_bindir}
+cat > %{buildroot}/%{_bindir}/%{name} << EOF
+#!/bin/bash
+if [ -e ~/.ecasoundrc ]
+then echo "~/.ecasoundrc found"
+else echo "creating ~/.ecasoundrc"; cp /usr/share/ecasound/ecasoundrc ~/.ecasoundrc
+fi
+if [ -e ~/.ecasound/ecasoundrc ]
+then echo "~/.ecasound/ecasoundrc found"
+else echo "creating ~/.ecasound/ecasoundrc"; mkdir -p ~/.ecasound; cp /usr/share/ecasound/ecasoundrc ~/.ecasound
+fi
+%{tcl_sitelib}/%{name}/tkeca.tcl
+EOF
+chmod ugo+x %{buildroot}/%{_bindir}/%{name}
 
 #menu
 mkdir -p %{buildroot}%{_datadir}/applications
@@ -50,11 +52,11 @@ Exec=%{_bindir}/%{name}
 Icon=sound_section
 Terminal=false
 Type=Application
-Categories=AudioVideo;Audio;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;
+Categories=AudioVideo;Audio;AudioVideoEditing;
 EOF
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post
@@ -68,7 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc README.tkeca license.txt *.html
-%{_bindir}/%name
+%doc README.tkeca *.html
+%{_bindir}/%{name}
 %{_datadir}/applications/*
-%{_prefix}/lib/%name
+%{tcl_sitelib}/%{name}
+
