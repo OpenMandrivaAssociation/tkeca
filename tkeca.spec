@@ -1,12 +1,11 @@
 Name: 		tkeca
 Summary: 	Tk GUI for Ecasound multitrack audio editor and recorder
-Version: 	4.4.0
-Release: 	%{mkrel 1}
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Version: 	4.4.3
+Release: 	1
+Source0:	http://sourceforge.net/projects/tkeca/files/%{name}-%{version}.tar.gz
 URL:		http://tkeca.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
-BuildRoot:	%{_tmppath}/%{name}-buildroot
 # For macros
 BuildRequires:	tcl-devel
 Requires:	tk
@@ -23,7 +22,6 @@ and multiple effects.
 %setup -q
 										
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}/%{tcl_sitelib}/%{name}
 cp tkeca.tcl %{buildroot}/%{tcl_sitelib}/%{name}/
 
@@ -56,7 +54,6 @@ Categories=AudioVideo;Audio;AudioVideoEditing;
 EOF
 
 %clean
-rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post
@@ -69,7 +66,6 @@ rm -rf %{buildroot}
 %endif
 
 %files
-%defattr(-,root,root)
 %doc README.tkeca *.html
 %{_bindir}/%{name}
 %{_datadir}/applications/*
@@ -152,3 +148,4 @@ rm -rf %{buildroot}
 
 * Tue Jan 28 2003 Austin Acton <aacton@yorku.ca> 1.0.2-1mdk
 - initial package
+
