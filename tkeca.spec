@@ -1,7 +1,7 @@
 Name: 		tkeca
 Summary: 	Tk GUI for Ecasound multitrack audio editor and recorder
 Version: 	4.4.3
-Release: 	1
+Release: 	2
 Source0:	http://sourceforge.net/projects/tkeca/files/%{name}-%{version}.tar.gz
 URL:		http://tkeca.sourceforge.net/
 License:	GPLv2+
